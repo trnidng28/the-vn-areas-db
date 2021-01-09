@@ -19,19 +19,8 @@ const Header = () => {
       <div className="left">
         <Link href="/">
           <a className="bold" data-active={isActive("/")}>
-            Blog
+            Home
           </a>
-        </Link>
-        <Link href="/drafts">
-          <a data-active={isActive("/drafts")}>Drafts</a>
-        </Link>
-      </div>
-      <div className="right">
-        <Link href="/signup">
-          <a data-active={isActive("/signup")}>Signup</a>
-        </Link>
-        <Link href="/create">
-          <a data-active={isActive("/create")}>+ Create draft</a>
         </Link>
       </div>
       <style jsx>{`
@@ -57,16 +46,6 @@ const Header = () => {
 
         a + a {
           margin-left: 1rem;
-        }
-
-        .right {
-          margin-left: auto;
-        }
-
-        .right a {
-          border: 1px solid black;
-          padding: 0.5rem 1rem;
-          border-radius: 3px;
         }
       `}</style>
     </nav>
