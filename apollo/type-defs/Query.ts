@@ -16,6 +16,17 @@ const Query = objectType({
         })
       }
     })
+    t.field('area', {
+      type: 'Area',
+      args: {
+        areaId: nonNull(intArg()),
+      },
+      resolve: (_parent, args, _ctx) => {
+        return prisma.area.findUnique({
+          where: { id: args.areaId },
+        })
+      }
+    })
   }
 })
 

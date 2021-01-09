@@ -2,13 +2,14 @@ import Layout from "../components/Layout"
 import Link from "next/link"
 import { useQuery } from "@apollo/client"
 import { GET_AREAS, AreasData } from '~/gql/queries'
+import { withApollo } from '~/lib/apollo'
 
 interface AreaProps {
   area: AreasData['areas'][number]
 }
 
 const Area: React.FunctionComponent<AreaProps> = ({ area }) => (
-  <Link href="/p/[id]" as={`/p/${area.id}`}>
+  <Link href={'/' + area.id.toString()}>
     <a>
       <h2>{area.code}</h2>
       <small>By {area.name}</small>
@@ -65,4 +66,4 @@ const Areas = () => {
   )
 }
 
-export default Areas
+export default withApollo(Areas)

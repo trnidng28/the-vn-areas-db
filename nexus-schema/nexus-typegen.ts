@@ -76,6 +76,7 @@ export interface NexusGenFieldTypes {
     unit: string; // String!
   }
   Query: { // field return type
+    area: NexusGenRootTypes['Area'] | null; // Area
     areas: Array<NexusGenRootTypes['Area'] | null> | null; // [Area]
   }
 }
@@ -92,11 +93,17 @@ export interface NexusGenFieldTypeNames {
     unit: 'String'
   }
   Query: { // field return type name
+    area: 'Area'
     areas: 'Area'
   }
 }
 
 export interface NexusGenArgTypes {
+  Query: {
+    area: { // args
+      areaId: number; // Int!
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {
