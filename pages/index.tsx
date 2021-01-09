@@ -1,29 +1,18 @@
 import Layout from "../components/Layout"
 import Link from "next/link"
-import gql from "graphql-tag"
 import { useQuery } from "@apollo/client"
+import { GET_AREAS, AreasData } from '~/gql/queries'
 
-const FeedQuery = gql`
-  query FeedQuery {
-    feed {
-      id
-      title
-      content
-      published
-      author {
-        id
-        name
-      }
-    }
-  }
-`
+interface AreaProps {
+  area: AreasData['areas'][number]
+}
 
-const Post = ({ post }) => (
-  <Link href="/p/[id]" as={`/p/${post.id}`}>
+const Area: React.FunctionComponent<AreaProps> = ({ area }) => (
+  <Link href="/p/[id]" as={`/p/${area.id}`}>
     <a>
-      <h2>{post.title}</h2>
-      <small>By {post.author.name}</small>
-      <p>{post.content}</p>
+      <h2>{area.code}</h2>
+      <small>By {area.name}</small>
+      <p>{area.unit}</p>
       <style jsx>{`
         a {
           text-decoration: none;
@@ -36,8 +25,8 @@ const Post = ({ post }) => (
   </Link>
 )
 
-const Blog = () => {
-  const { loading, error, data } = useQuery(FeedQuery)
+const Areas = () => {
+  const { loading, error, data } = useQuery<AreasData>(GET_AREAS)
 
   if (loading) {
     return <div>Loading ...</div>
@@ -49,11 +38,11 @@ const Blog = () => {
   return (
     <Layout>
       <div className="page">
-        <h1>My Blog</h1>
+        <h1>Areas</h1>
         <main>
-          {data.feed.map((post) => (
-            <div key={post.id} className="post">
-              <Post post={post} />
+          {data.areas.map((area) => (
+            <div key={area.id} className="post">
+              <Area area={area} />
             </div>
           ))}
         </main>
@@ -76,4 +65,4 @@ const Blog = () => {
   )
 }
 
-export default Blog
+export default Areas

@@ -3,9 +3,7 @@ import path from 'path'
 
 const types = [
   require('./type-defs/Query'),
-  require('./type-defs/Mutation'),
-  require('./type-defs/Post'),
-  require('./type-defs/User'),
+  require('./type-defs/Area'),
   require('./type-defs/GQLDate')
 ]
 
