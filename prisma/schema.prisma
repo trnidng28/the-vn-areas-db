@@ -22,3 +22,14 @@ model Area {
   @@index([parentId], name: "index_areas_on_parent_id")
   @@map("areas")
 }
+
+model ar_internal_metadata {
+  key        String   @id
+  value      String?
+  created_at DateTime
+  updated_at DateTime
+}
+
+model schema_migrations {
+  version String @id
+}

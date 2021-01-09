@@ -14,7 +14,7 @@ const Area = objectType({
       type: 'Area',
       resolve: (parent) =>
         prisma.area
-          .findOne({
+          .findUnique({
             where: { id: Number(parent.id) },
           })
           .parentArea(),
@@ -23,7 +23,7 @@ const Area = objectType({
       type: 'Area',
       resolve: (parent) =>
         prisma.area
-          .findOne({
+          .findUnique({
             where: { id: Number(parent.id) },
           })
           .subAreas()
