@@ -3,22 +3,22 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-model User {
-  email String  @unique
-  id    Int     @default(autoincrement()) @id
-  name  String?
-  posts Post[]
-}
+model Area {
+  id         Int      @id @default(autoincrement())
+  code       String   @unique
+  name       String
+  unit       String
+  parentId   Int?     @map("parent_id")
+  isArchived Boolean  @default(false) @map("is_archived")
+  createdAt  DateTime @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  parentArea Area?    @relation("Subdivisions", fields: [parentId], references: [id])
+  subAreas   Area[]   @relation("Subdivisions")
 
-model Post {
-  authorId  Int?
-  content   String?
-  id        Int     @default(autoincrement()) @id
-  published Boolean @default(false)
-  title     String
-  author    User?   @relation(fields: [authorId], references: [id])
+  @@index([parentId], name: "index_areas_on_parent_id")
+  @@map("areas")
 }
