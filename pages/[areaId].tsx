@@ -4,6 +4,8 @@ import { GET_AREA, AreaData, AreaVars } from '~/gql/queries'
 import Link from 'next/link'
 import { withApollo } from '~/lib/apollo'
 import { useRouter } from 'next/router'
+import { getAscii } from '~/utils'
+import { useMemo } from 'react'
 
 function Area() {
   const { areaId } = useRouter().query
@@ -12,6 +14,14 @@ function Area() {
       areaId: Number(areaId)
     }
   })
+
+  const sortedSubAreas = useMemo(() => {
+    if (!data) return []
+    return [...data.area.subAreas].sort((a, b) => {
+      if (Number(a.name) && Number(b.name)) return Number(a.name) - Number(b.name)
+      return getAscii(a.name) > getAscii(b.name) ? 1 : -1
+    })
+  }, [data])
 
   if (loading) {
     console.log('loading')
@@ -31,7 +41,7 @@ function Area() {
       <div>
         <h2>{title}</h2>
         <ul>
-          {data.area.subAreas.map(area =>
+          {sortedSubAreas.map(area =>
             <li key={area.id}>
               <Link href={'/' + area.id}>
                 <a>{area.name}</a>

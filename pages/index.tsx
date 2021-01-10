@@ -3,9 +3,16 @@ import Link from "next/link"
 import { useQuery } from "@apollo/client"
 import { GET_AREAS, AreasData } from '~/gql/queries'
 import { withApollo } from '~/lib/apollo'
+import { useMemo } from "react"
+import { getAscii } from '~/utils'
+
+type AreaType = AreasData['areas'][number]
+
+const MUNICIPALITIES = ['Hồ Chí Minh', 'Hà Nội', 'Đà Nẵng', 'Hải Phòng', 'Cần Thơ']
+const isMunicipality = (area: AreaType) => area.unit === 'municipality'
 
 interface AreaProps {
-  area: AreasData['areas'][number]
+  area: AreaType
 }
 
 const Area: React.FunctionComponent<AreaProps> = ({ area }) => (
@@ -29,6 +36,16 @@ const Area: React.FunctionComponent<AreaProps> = ({ area }) => (
 const Areas = () => {
   const { loading, error, data } = useQuery<AreasData>(GET_AREAS)
 
+  const sortedAreas = useMemo(() => {
+    if (!data) return []
+    return [...data.areas].sort((a,b) => {
+      if (isMunicipality(a) && isMunicipality(b)) return MUNICIPALITIES.indexOf(a.name) - MUNICIPALITIES.indexOf(b.name)
+      if (isMunicipality(a)) return -1
+      if (isMunicipality(b)) return 1
+
+      return getAscii(a.name) > getAscii(b.name) ? 1 : -1
+    })
+  }, [data])
   if (loading) {
     return <div>Loading ...</div>
   }
@@ -41,7 +58,7 @@ const Areas = () => {
       <div className="page">
         <h1>Areas</h1>
         <main>
-          {data.areas.map((area) => (
+          {sortedAreas.map((area) => (
             <div key={area.id} className="post">
               <Area area={area} />
             </div>
