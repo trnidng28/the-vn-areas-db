@@ -9,7 +9,7 @@ const Layout = props => {
     <>
       <Header />
       <Block
-        padding={[scale600, scale600, scale800]}
+        padding={[scale800]}
       >
         {props.children}
       </Block>
