@@ -16,7 +16,10 @@
   "dependencies": {
     "@apollo/client": "^3.3.6",
     "@prisma/client": "2.14.0",
+    "@types/styletron-engine-atomic": "^1.1.0",
+    "@types/styletron-react": "^5.0.2",
     "apollo-server-micro": "2.19.1",
+    "baseui": "^9.107.0",
     "express": "4.17.1",
     "graphql": "15.4.0",
     "graphql-iso-date": "3.6.1",
@@ -26,7 +29,9 @@
     "react": "17.0.1",
     "react-apollo": "3.1.5",
     "react-dom": "17.0.1",
-    "react-markdown": "5.0.3"
+    "react-markdown": "5.0.3",
+    "styletron-engine-atomic": "^1.4.6",
+    "styletron-react": "^5.2.7"
   },
   "devDependencies": {
     "@prisma/cli": "2.14.0",
