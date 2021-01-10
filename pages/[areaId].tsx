@@ -1,11 +1,12 @@
 import Layout from '~/components/Layout'
 import { useQuery } from '@apollo/client'
 import { GET_AREA, AreaData, AreaVars } from '~/gql/queries'
-import Link from 'next/link'
 import { withApollo } from '~/lib/apollo'
 import { useRouter } from 'next/router'
 import { getAscii } from '~/utils'
 import { useMemo } from 'react'
+import AreaTable from '~/components/AreaTable'
+import { StyledSpinnerNext } from 'baseui/spinner'
 
 function Area() {
   const { areaId } = useRouter().query
@@ -15,41 +16,29 @@ function Area() {
     }
   })
 
-  const sortedSubAreas = useMemo(() => {
+  const sortedSubAreasData = useMemo(() => {
     if (!data) return []
-    return [...data.area.subAreas].sort((a, b) => {
-      if (Number(a.name) && Number(b.name)) return Number(a.name) - Number(b.name)
-      return getAscii(a.name) > getAscii(b.name) ? 1 : -1
-    })
+    return [...data.area.subAreas]
+      .sort((a, b) => {
+        if (Number(a.name) && Number(b.name)) return Number(a.name) - Number(b.name)
+        return getAscii(a.name) > getAscii(b.name) ? 1 : -1
+      })
+      .map(({ id, code, name, unit }, index) => ({ index: index + 1, id, code, name, unit }))
   }, [data])
-
-  if (loading) {
-    console.log('loading')
-    return <div>Loading ...</div>
-  }
-  if (error) {
-    console.log('error')
-    return <div>Error: {error.message}</div>
-  }
-
-  console.log(`response`, data)
-
-  const title = data.area.name
 
   return (
     <Layout>
-      <div>
-        <h2>{title}</h2>
-        <ul>
-          {sortedSubAreas.map(area =>
-            <li key={area.id}>
-              <Link href={'/' + area.id}>
-                <a>{area.name}</a>
-              </Link>
-            </li>
-          )}
-        </ul>
-      </div>
+      {loading && <StyledSpinnerNext />}
+      {data && (
+        <div>
+          <h2>{data.area.name}</h2>
+          <AreaTable
+            loading={loading}
+            data={sortedSubAreasData}
+          />
+          {error && <div>Error: {error.message}</div>}
+        </div>
+      )}
     </Layout>
   )
 }
