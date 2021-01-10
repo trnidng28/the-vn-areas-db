@@ -1,6 +1,6 @@
 import Layout from "../components/Layout"
 import { useQuery } from "@apollo/client"
-import { GET_AREAS, AreasData } from '~/gql/queries'
+import { GET_AREAS, AreasData, AreasVars } from '~/gql/queries'
 import { withApollo } from '~/lib/apollo'
 import { useMemo } from "react"
 import { getAscii } from '~/utils'
@@ -12,7 +12,7 @@ const MUNICIPALITIES = ['Hồ Chí Minh', 'Hà Nội', 'Đà Nẵng', 'Hải Ph�
 const isMunicipality = (area: AreaType) => area.unit === 'municipality'
 
 const Areas = () => {
-  const { loading, error, data } = useQuery<AreasData>(GET_AREAS)
+  const { loading, error, data } = useQuery<AreasData, AreasVars>(GET_AREAS, { variables: { keyword: '' } })
 
   const sortedAreasData = useMemo(() => {
     if (!data) return []

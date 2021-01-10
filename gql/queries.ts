@@ -5,9 +5,11 @@ export interface AreasData {
   areas: NexusGenFieldTypes['Area'][]
 }
 
+export type AreasVars = NexusGenArgTypes['Query']['areas']
+
 export const GET_AREAS = gql`
-  query Areas {
-    areas {
+  query Areas($keyword: String) {
+    areas(keyword: $keyword) {
       id
       code
       name

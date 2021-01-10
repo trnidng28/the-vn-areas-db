@@ -48,6 +48,7 @@ export interface NexusGenObjects {
     id: number; // Int!
     isArchived: boolean; // Boolean!
     name: string; // String!
+    nameAscii: string; // String!
     parentId?: number | null; // Int
     unit: string; // String!
   }
@@ -70,6 +71,7 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     isArchived: boolean; // Boolean!
     name: string; // String!
+    nameAscii: string; // String!
     parentArea: NexusGenRootTypes['Area'] | null; // Area
     parentId: number | null; // Int
     subAreas: Array<NexusGenRootTypes['Area'] | null> | null; // [Area]
@@ -87,6 +89,7 @@ export interface NexusGenFieldTypeNames {
     id: 'Int'
     isArchived: 'Boolean'
     name: 'String'
+    nameAscii: 'String'
     parentArea: 'Area'
     parentId: 'Int'
     subAreas: 'Area'
@@ -102,6 +105,9 @@ export interface NexusGenArgTypes {
   Query: {
     area: { // args
       areaId: number; // Int!
+    }
+    areas: { // args
+      keyword?: string | null; // String
     }
   }
 }

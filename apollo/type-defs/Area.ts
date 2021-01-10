@@ -1,5 +1,5 @@
 import { objectType } from 'nexus'
-import prisma from '~/lib/prisma'
+import prisma from '../../lib/prisma'
 
 const Area = objectType({
   name: 'Area',
@@ -10,6 +10,7 @@ const Area = objectType({
     t.nonNull.string('unit')
     t.nullable.int('parentId')
     t.nonNull.boolean('isArchived')
+    t.nonNull.string('nameAscii')
     t.nullable.field('parentArea', {
       type: 'Area',
       resolve: (parent) =>

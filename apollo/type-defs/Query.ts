@@ -1,18 +1,31 @@
 import {
   objectType,
   intArg,
-  nonNull
+  nonNull,
+  stringArg,
+  nullable
 } from 'nexus'
-import prisma from '~/lib/prisma'
+import prisma from '../../lib/prisma'
 
 const Query = objectType({
   name: 'Query',
   definition(t) {
     t.list.field('areas', {
       type: 'Area',
-      resolve: (_parent, _args, _ctx) => {
+      args: {
+        keyword: nullable(stringArg())
+      },
+      resolve: (_parent, args, _ctx) => {
         return prisma.area.findMany({
-          where: { parentId: null },
+          take: args.keyword ? 10 : undefined,
+          where: args.keyword ? {
+            nameAscii: {
+              startsWith: args.keyword,
+              mode: 'insensitive'
+            }
+          } : {
+            parentId: null
+          },
         })
       }
     })

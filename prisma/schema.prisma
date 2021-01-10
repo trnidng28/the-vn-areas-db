@@ -16,6 +16,7 @@ model Area {
   isArchived Boolean  @default(false) @map("is_archived")
   createdAt  DateTime @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
+  nameAscii  String   @default("") @map("name_ascii")
   parentArea Area?    @relation("Subdivisions", fields: [parentId], references: [id])
   subAreas   Area[]   @relation("Subdivisions")
 

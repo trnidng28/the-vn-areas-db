@@ -7,6 +7,7 @@ type Area {
   id: Int!
   isArchived: Boolean!
   name: String!
+  nameAscii: String!
   parentArea: Area
   parentId: Int
   subAreas: [Area]
@@ -20,5 +21,5 @@ scalar Date
 
 type Query {
   area(areaId: Int!): Area
-  areas: [Area]
+  areas(keyword: String): [Area]
 }
