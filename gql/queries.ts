@@ -1,8 +1,18 @@
 import { gql } from '@apollo/client'
-import { NexusGenFieldTypes, NexusGenArgTypes } from '~/nexus-schema/nexus-typegen'
+import { NexusGenArgTypes } from '~/nexus-schema/nexus-typegen'
+
+const AreaFragment = gql`
+  fragment AreaData on Area {
+    id
+    code
+    name
+    unit
+    nameAscii
+  }
+`
 
 export interface AreasData {
-  areas: NexusGenFieldTypes['Area'][]
+  areas: Area[]
 }
 
 export type AreasVars = NexusGenArgTypes['Query']['areas']
@@ -10,16 +20,14 @@ export type AreasVars = NexusGenArgTypes['Query']['areas']
 export const GET_AREAS = gql`
   query Areas($keyword: String) {
     areas(keyword: $keyword) {
-      id
-      code
-      name
-      unit
+      ...AreaData
     }
   }
+  ${AreaFragment}
 `
 
 export interface AreaData {
-  area: NexusGenFieldTypes['Area']
+  area: Area
 }
 
 export type AreaVars = NexusGenArgTypes['Query']['area']
@@ -27,16 +35,11 @@ export type AreaVars = NexusGenArgTypes['Query']['area']
 export const GET_AREA = gql`
   query Area($areaId: Int!) {
     area(areaId: $areaId) {
-      id
-      code
-      name
-      unit
+      ...AreaData
       subAreas {
-        id
-        code
-        name
-        unit
+        ...AreaData
       }
     }
   }
+  ${AreaFragment}
 `
