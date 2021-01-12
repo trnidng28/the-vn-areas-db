@@ -39,6 +39,12 @@ export const GET_AREA = gql`
       subAreas {
         ...AreaData
       }
+      parentArea {
+        ...AreaData
+        parentArea {
+          ...AreaData
+        }
+      }
     }
   }
   ${AreaFragment}

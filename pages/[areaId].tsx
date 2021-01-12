@@ -6,6 +6,9 @@ import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import AreaGrid from '~/components/AreaGrid'
 import { StyledSpinnerNext } from 'baseui/spinner'
+import { Breadcrumbs } from 'baseui/breadcrumbs'
+import { StyledLink } from 'baseui/link'
+import Link from 'next/link'
 
 function Area() {
   const { areaId } = useRouter().query
@@ -23,10 +26,38 @@ function Area() {
     })
   }, [data])
 
+  const parenAreaBreadcrumbs = useMemo(() => {
+    if (!data) return []
+
+    const breadcrumbs = []
+    let area = data.area.parentArea
+    while(!!area) {
+      breadcrumbs.unshift(
+        <Link key={area.id} href={'/' + area.id}>
+          <StyledLink>{area.name}</StyledLink>
+        </Link>
+      )
+      // @ts-ignore
+      area = area.parentArea
+    }
+    return breadcrumbs
+  }, [data])
+
   return (
     <Layout>
       {loading && <StyledSpinnerNext />}
-      {data && <AreaGrid areas={sortedSubAreasData} /> }
+      {data && (
+        <>
+          <Breadcrumbs>
+            <Link href='/'>
+              <StyledLink>{'Việt Nam'}</StyledLink>
+            </Link>
+            {parenAreaBreadcrumbs}
+            <span>{data.area.name}</span>
+          </Breadcrumbs>
+          <AreaGrid areas={sortedSubAreasData} />
+        </>
+      )}
       {error && <div>Error: {error.message}</div>}
     </Layout>
   )
