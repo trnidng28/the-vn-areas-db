@@ -9,8 +9,11 @@ import { StyledSpinnerNext } from 'baseui/spinner'
 import { Breadcrumbs } from 'baseui/breadcrumbs'
 import { StyledLink } from 'baseui/link'
 import Link from 'next/link'
+import { useI18n } from '~/lib/I18n'
 
 function Area() {
+  const { messages } = useI18n()
+
   const { areaId } = useRouter().query
   const { loading, error, data } = useQuery<AreaData, AreaVars>(GET_AREA, {
     variables: {
@@ -20,10 +23,11 @@ function Area() {
 
   const sortedSubAreasData = useMemo(() => {
     if (!data) return []
-    return [...data.area.subAreas].sort((a, b) => {
-      if (Number(a.name) && Number(b.name)) return Number(a.name) - Number(b.name)
-      return a.nameAscii > b.nameAscii ? 1 : -1
-    })
+    return [...data.area.subAreas]
+      .sort((a, b) => {
+        if (Number(a.name) && Number(b.name)) return Number(a.name) - Number(b.name)
+        return a.nameAscii > b.nameAscii ? 1 : -1
+      })
   }, [data])
 
   const parenAreaBreadcrumbs = useMemo(() => {
@@ -34,7 +38,7 @@ function Area() {
     while(!!area) {
       breadcrumbs.unshift(
         <Link key={area.id} href={'/' + area.id}>
-          <StyledLink>{area.name}</StyledLink>
+          <StyledLink>{messages.renderAreaName(area)}</StyledLink>
         </Link>
       )
       // @ts-ignore
@@ -53,7 +57,7 @@ function Area() {
               <StyledLink>{'Việt Nam'}</StyledLink>
             </Link>
             {parenAreaBreadcrumbs}
-            <span>{data.area.name}</span>
+            <span>{messages.renderAreaName(data.area)}</span>
           </Breadcrumbs>
           <AreaGrid areas={sortedSubAreasData} />
         </>

@@ -3,28 +3,16 @@ import { StyledLink } from 'baseui/link'
 import Link from 'next/link'
 import { useMemo, Fragment } from 'react'
 import { HeadingLevel, Heading } from 'baseui/heading'
+import { UNITS } from '~/constants'
+import { useI18n } from '~/lib/I18n'
 
-const UNITS = {
-  municipality: 'Municipality', // 'Thành phố Trung ương',
-  province: 'Province', // 'Tỉnh',
-  municipal_city: 'Municipal City', // 'Thành phố trực thuộc Trung ương',
-  provincial_city: 'Provincial City', // 'Thành phố',
-  urban_district: 'Urban District', // 'Quận',
-  town: 'Town', // 'Thị xã',
-  district: 'District', // 'Huyện',
-  ward: 'Ward', // 'Phường',
-  township: 'Township', // 'Thị trấn',
-  commune: 'Commune', // 'Xã'
-}
+const AreaItem = (area: Area) => {
+  const { messages } = useI18n()
 
-const AreaItem = ({ id, name, unit }: Area) => {
   return (
-    <Link href={'/' + id} passHref>
+    <Link href={'/' + area.id} passHref>
       <StyledLink>
-        {Number(name)
-          ? `${UNITS[unit]} ${name}`
-          : name
-        }
+        {messages.renderAreaName(area)}
       </StyledLink>
     </Link>
   )
