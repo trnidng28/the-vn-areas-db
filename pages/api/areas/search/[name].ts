@@ -3,12 +3,18 @@ import { NextApiHandler } from 'next'
 import { formatQuery } from '~/utils'
 
 const handler: NextApiHandler = async (req, res) => {
-  const { skip, limit, ...query } = req.query
+  const { name, skip, limit, ...query } = req.query
 
   const areas = await prisma.area.findMany({
     skip: +skip || undefined,
     take: + limit || undefined,
-    where: formatQuery(query),
+    where: {
+      ...(formatQuery(query)),
+      nameAscii: {
+        startsWith: name as string,
+        mode: 'insensitive'
+      }
+    },
     select: {
       id: true,
       name: true,
