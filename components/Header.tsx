@@ -27,9 +27,6 @@ export default function Header() {
     >
       <NavigationList
         $align={ALIGN.left}
-        className={css({
-          order: 0
-        })}
       >
         <NavigationItem>
           <H4 margin={0} as='h1'>
@@ -52,22 +49,32 @@ export default function Header() {
       </NavigationList>
       <NavigationList
         $align={ALIGN.center}
+      >
+        <NavigationItem
+          className={css({
+            marginLeft: 'auto'
+          })}
+        >
+          <Link href='/docs/api' passHref>
+            <StyledLink>API</StyledLink>
+          </Link>
+        </NavigationItem>
+      </NavigationList>
+      <NavigationList
+        $align={ALIGN.right}
         className={css({
-          justifyContent: 'flex-start !important',
-          order: 2,
-          marginTop: theme.sizing.scale500 + ' !important',
           width: '100%',
-          paddingLeft: '0 !important',
+          marginTop: theme.sizing.scale300,
           [theme.mediaQuery.medium]: {
-            order: 1,
-            marginTop: '0 !important',
-            width: 'unset',
+            marginTop: 0,
+            width: 'unset'
           }
         })}
       >
         <NavigationItem
           className={css({
             width: '100%',
+            paddingRight: theme.sizing.scale800,
             minWidth: `calc(${theme.sizing.scale800} * 10)`,
             [theme.mediaQuery.medium]: {
               maxWidth: `calc(${theme.sizing.scale800} * 10)`
@@ -75,24 +82,6 @@ export default function Header() {
           })}
         >
           <Search />
-        </NavigationItem>
-      </NavigationList>
-      <NavigationList
-        $align={ALIGN.right}
-        className={css({
-          order: 1,
-          marginLeft: 'auto !important',
-          [theme.mediaQuery.medium]: {
-            order: 2,
-          }
-        })}
-      >
-        <NavigationItem
-          className={css({
-            paddingRight: theme.sizing.scale800
-          })}
-        >
-          <Button>Download</Button>
         </NavigationItem>
       </NavigationList>
     </HeaderNavigation>
