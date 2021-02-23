@@ -6,39 +6,51 @@ const handler: NextApiHandler = async (req, res) => {
     where: {
       id: +req.query.id
     },
-    select: {
-      id: true,
-      name: true,
-      unit: true,
+    include: {
       parentArea: {
-        select: {
-          id: true,
-          name: true,
-          unit: true,
-          parentArea: {
-            select: {
-              id: true,
-              name: true,
-              unit: true
-            }
-          }
+        include: {
+          parentArea: true
         }
       },
       subAreas: {
-        select: {
-          id: true,
-          name: true,
-          unit: true,
-          subAreas: {
-            select: {
-              id: true,
-              name: true,
-              unit: true
-            }
-          }
+        include: {
+          subAreas: true
         }
       }
     }
+    // select: {
+    //   id: true,
+    //   name: true,
+    //   unit: true,
+    //   parentArea: {
+    //     select: {
+    //       id: true,
+    //       name: true,
+    //       unit: true,
+    //       parentArea: {
+    //         select: {
+    //           id: true,
+    //           name: true,
+    //           unit: true
+    //         }
+    //       }
+    //     }
+    //   },
+    //   subAreas: {
+    //     select: {
+    //       id: true,
+    //       name: true,
+    //       unit: true,
+    //       subAreas: {
+    //         select: {
+    //           id: true,
+    //           name: true,
+    //           unit: true
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   })
 
   res.json(area)
